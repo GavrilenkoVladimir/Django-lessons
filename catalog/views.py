@@ -1,15 +1,10 @@
-import datetime
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
 
-def hello_world(request: HttpRequest, unique_number: int) -> HttpResponse:
-    now = datetime.datetime.now()
-    print(f"Request params: {request.GET}")
+
+def index(request: HttpRequest) -> HttpResponse:
+
     return HttpResponse(
-        "<html>"
         "<h1>"
-        "Hello World!"
-        f"<h4>Unique number:{unique_number}</h4>"
+        "Welcome to library"
         "</h1>"
-        "</html>"
     )
