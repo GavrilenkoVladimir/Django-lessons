@@ -1,9 +1,44 @@
-<html>
-<h1>Welcome to the Greatest Library</h1>
-<h3>Library content</h3>
-<ul>
-    <li>Num books: {{ num_books }}</li>
-    <li>Num authors: {{ num_authors }}</li>
-    <li>Num literary formats: {{ num_literary_formats }}</li>
-</ul>
+<!DOCTYPE "html">
+<html lang="en">
+<head>
+    <title>Library</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3">
+            <ul>
+                <li>
+                    <a href="{% url 'catalog:index' %}">Home</a>
+                </li>
+                <li>
+                    <a href="#">All authors</a>
+                </li>
+                <li>
+                    <a href="#">All books</a>
+                </li>
+                <li>
+                    <a href="#">All literary formats</a>
+                </li>
+
+            </ul>
+        </div>
+        <div class="col-sm-9">
+            <h1>Library Home</h1>
+            <p>Welcome to the Greatest Library</p>
+            <h3>Library content</h3>
+            <ul>
+                <li>Num books: {{ num_books }}</li>
+                <li>Num authors: {{ num_authors }}</li>
+                <li>Num literary formats: {{ num_literary_formats }}</li>
+            </ul>
+        </div>
+
+</div>
+
+</body>
+
 </html>
