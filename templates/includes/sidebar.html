@@ -3,12 +3,12 @@
     <a href="{% url 'catalog:index' %}">Home</a>
   </li>
   <li>
-    <a href="#">All authors</a>
+    <a href="{% url "catalog:author-list" %}">All authors</a>
   </li>
   <li>
-    <a href="#">All books</a>
+    <a href="{% url "catalog:book-list" %}">All books</a>
   </li>
   <li>
-    <a href="#">All literary formats</a>
+    <a href="{% url "catalog:library-formats-list" %}">All literary formats</a>
   </li>
 </ul>

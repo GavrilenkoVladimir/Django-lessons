@@ -1,5 +1,7 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.views import generic
+
 from .models import Book, Author, LiteraryFormat
 
 
@@ -13,3 +15,17 @@ def index(request: HttpRequest) -> HttpResponse:
         "num_literary_formats": num_literary_formats,
     }
     return render(request, "catalog/index.html", context=context)
+
+class LiteraryFormatView(generic.ListView):
+    model = LiteraryFormat
+    template_name = "catalog/literary_format_list.html"
+    context_object_name = "literary_format_list"
+    queryset = LiteraryFormat.objects.all()
+
+
+class BookListView(generic.ListView):
+    model = Book
+
+
+class AuthorListView(generic.ListView):
+    model = Author
