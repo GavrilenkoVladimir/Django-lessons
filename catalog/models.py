@@ -40,4 +40,4 @@ class Book(models.Model):
         return f" {self.title} (price: {self.price}), format: {self.format}"
 
     def get_absolute_url(self):
-        return reverse("catalog:book-detail", args=(str(self.id)))
+        return reverse("catalog:book-detail", kwargs={"pk": self.pk})
