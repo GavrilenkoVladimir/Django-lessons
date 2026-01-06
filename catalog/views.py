@@ -25,7 +25,16 @@ class LiteraryFormatView(generic.ListView):
 
 class BookListView(generic.ListView):
     model = Book
+    queryset = Book.objects.select_related("format")
 
 
 class AuthorListView(generic.ListView):
     model = Author
+
+
+def book_detail_view(request: HttpRequest, pk: int):
+    book = Book.objects.get(pk=pk)
+    context = {
+        "book": book,
+    }
+    return render(request, "catalog/book_detail.html/", context=context)

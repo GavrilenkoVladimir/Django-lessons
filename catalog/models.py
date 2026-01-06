@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 
 
 class LiteraryFormat(models.Model):
@@ -37,3 +38,6 @@ class Book(models.Model):
 
     def __str__(self):
         return f" {self.title} (price: {self.price}), format: {self.format}"
+
+    def get_absolute_url(self):
+        return reverse("catalog:book-detail", args=(str(self.id)))
