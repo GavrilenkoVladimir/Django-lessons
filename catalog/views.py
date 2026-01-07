@@ -36,3 +36,10 @@ class AuthorListView(generic.ListView):
 class BookDetailView(generic.DetailView):
     model = Book
 
+
+def test_session_view(request):
+    return HttpResponse(
+        "<h1>Test Session</h1>"
+        f"<h4>Session data: {request.session['book']}</h4>"
+    )
+
