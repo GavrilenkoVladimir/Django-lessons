@@ -5,7 +5,7 @@
   {% if author_list %}
     <ul class="list-unstyled">
       {% for author in author_list %}
-        <li><a href="#">{{ author.username }} </a>{{ author.first_name }} {{ author.last_name }}</li>
+        <li><a href="{% url "catalog:author-detail" author.pk %}">{{ author.username }} </a>{{ author.first_name }} {{ author.last_name }}</li>
       {% endfor %}
     </ul>
   {% else %}

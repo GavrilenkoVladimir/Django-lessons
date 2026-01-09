@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ author.first_name }} {{ author.last_name }}</h1>
+  <p><strong>username: </strong> {{ author.username }}</p>
+  {% if author.pseudonym %}
+  	    <p><strong>Pseudonym: </strong> {{ author.pseudonym }}</p>
+  {% endif %}
+    <p><strong>Is staff: </strong> {{ author.is_staff }}</p>
+  <ul class="list-unstyled">
+  <li>
+    <h3>Books:</h3>
+    <hr>
+  </li>
+  {% for book in author.books.all %}
+  	<li><small>id: {{ book.id }}</small></li>
+    <li>
+      <strong>Title: {{ book.title }}</strong>
+      <hr>
+    </li>
+  {% endfor %}
+
+  </ul>
+{% endblock %}
