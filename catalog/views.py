@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.http import HttpRequest, HttpResponse, Http404
 from django.shortcuts import render
@@ -5,7 +7,7 @@ from django.views import generic
 
 from .models import Book, Author, LiteraryFormat
 
-
+@login_required
 def index(request: HttpRequest) -> HttpResponse:
     num_books = Book.objects.count()
     num_authors = Author.objects.count()
@@ -20,7 +22,7 @@ def index(request: HttpRequest) -> HttpResponse:
     }
     return render(request, "catalog/index.html", context=context)
 
-class LiteraryFormatView(generic.ListView):
+class LiteraryFormatView(LoginRequiredMixin, generic.ListView):
     model = LiteraryFormat
     template_name = "catalog/literary_format_list.html"
     context_object_name = "literary_format_list"
@@ -28,22 +30,22 @@ class LiteraryFormatView(generic.ListView):
     paginate_by = 2
 
 
-class BookListView(generic.ListView):
+class BookListView(LoginRequiredMixin, generic.ListView):
     model = Book
     queryset = Book.objects.select_related("format")
     paginate_by = 2
 
 
-class BookDetailView(generic.DetailView):
+class BookDetailView(LoginRequiredMixin, generic.DetailView):
     model = Book
 
 
-class AuthorListView(generic.ListView):
+class AuthorListView(LoginRequiredMixin, generic.ListView):
     model = Author
     paginate_by = 2
 
 
-class AuthorDetailView(generic.DetailView):
+class AuthorDetailView(LoginRequiredMixin, generic.DetailView):
     model = Author
     queryset = Author.objects.prefetch_related("books")
 
