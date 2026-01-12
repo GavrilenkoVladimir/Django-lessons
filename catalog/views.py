@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.http import HttpRequest, HttpResponse, Http404
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
 
 from .models import Book, Author, LiteraryFormat
@@ -28,6 +29,13 @@ class LiteraryFormatView(LoginRequiredMixin, generic.ListView):
     context_object_name = "literary_format_list"
     queryset = LiteraryFormat.objects.all()
     paginate_by = 2
+
+
+class LiteraryFormatCreateView(LoginRequiredMixin, generic.CreateView):
+    model = LiteraryFormat
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:literary-format-list")
+    template_name = "catalog/literary_format_form.html"
 
 
 class BookListView(LoginRequiredMixin, generic.ListView):

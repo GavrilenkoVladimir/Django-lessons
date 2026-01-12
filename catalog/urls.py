@@ -8,12 +8,14 @@ from catalog.views import (
     AuthorListView,
     BookDetailView,
     test_session_view,
-    AuthorDetailView
+    AuthorDetailView,
+    LiteraryFormatCreateView,
 )
 
 urlpatterns = [
     path("", index, name="index"),
-    path("literaty-formats/", LiteraryFormatView.as_view(), name="library-formats-list"),
+    path("literaty-formats/", LiteraryFormatView.as_view(), name="literary-format-list"),
+    path("literary-formats/create/", LiteraryFormatCreateView.as_view(), name="literary-format-create"),
     path("books/", BookListView.as_view(), name="book-list"),
     path("books/<int:pk>/", BookDetailView.as_view(), name="book-detail"),
     path("authors/", AuthorListView.as_view(), name="author-list"),
