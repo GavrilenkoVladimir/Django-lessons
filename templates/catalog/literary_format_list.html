@@ -1,12 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Literary format list <a style="float: right" href="{% url "catalog:literary-format-create" %}">+</a> </h1>
+  <h1>Literary format list <a style="float: right" href="{% url "catalog:literary-format-create" %}">+</a></h1>
   {% if literary_format_list %}
-    <ul>
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
       {% for literary_format in literary_format_list %}
-        <li>{{ literary_format }}</li>
+        <tr>
+          <td>{{ literary_format.pk }}</td>
+          <td>{{ literary_format.name }}</td>
+          <td>
+            <a href="{% url "catalog:literary-format-update" pk=literary_format.pk %}">Update</a>
+          </td>
+          <td>
+            <a href="{% url "catalog:literary-format-delete" pk=literary_format.pk %}">Delete</a>
+          </td>
+        </tr>
       {% endfor %}
-    </ul>
+    </table>
   {% else %}
     <p>There are no Literary formats in Library</p>
   {% endif %}
