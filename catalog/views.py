@@ -1,3 +1,4 @@
+from django.contrib.auth import user_login_failed
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse
@@ -5,6 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
+from .forms import AuthorCreationForm, BookForm
 from .models import Book, Author, LiteraryFormat
 
 @login_required
@@ -60,6 +62,15 @@ class BookDetailView(LoginRequiredMixin, generic.DetailView):
     model = Book
 
 
+class BookCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Book
+    form_class = BookForm
+
+class BookUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Book
+    form_class = BookForm
+
+
 class AuthorListView(LoginRequiredMixin, generic.ListView):
     model = Author
     paginate_by = 2
@@ -70,11 +81,9 @@ class AuthorDetailView(LoginRequiredMixin, generic.DetailView):
     queryset = Author.objects.prefetch_related("books")
 
 
-def test_session_view(request):
-    return HttpResponse(
-        "<h1>Test Session</h1>"
-        f"<h4>Session data: {request.session['book']}</h4>"
-    )
+class AuthorCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Author
+    form_class = AuthorCreationForm
 
-
-
+    def get_success_url(self):
+        return reverse_lazy("catalog:author-detail", kwargs={"pk": self.object.pk})
