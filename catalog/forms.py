@@ -20,3 +20,12 @@ class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = "__all__"
+
+
+class BookSearchForm(forms.Form):
+    title = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={"placeholder": "Search by Title"}),
+    )

@@ -1,12 +1,13 @@
 from django.contrib.auth import user_login_failed
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from .forms import AuthorCreationForm, BookForm
+from .forms import AuthorCreationForm, BookForm, BookSearchForm
 from .models import Book, Author, LiteraryFormat
 
 @login_required
@@ -56,6 +57,27 @@ class BookListView(LoginRequiredMixin, generic.ListView):
     model = Book
     queryset = Book.objects.select_related("format")
     paginate_by = 2
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(BookListView, self).get_context_data(**kwargs)
+        title = self.request.GET.get("title", "")
+        context["title"] = title
+        context["search_form"] = BookSearchForm(
+            initial={"title": title}
+        )
+        return context
+
+    def get_queryset(self):
+        # title = self.request.GET.get("title")
+        # if title:
+        #     return self.queryset.filter(title__icontains=title)
+        # return self.queryset
+        form = BookSearchForm(self.request.GET)
+        if form.is_valid():
+            return self.queryset.filter(
+                title__icontains=form.cleaned_data["title"]
+            )
+        return self.queryset
 
 
 class BookDetailView(LoginRequiredMixin, generic.DetailView):

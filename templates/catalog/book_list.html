@@ -1,6 +1,11 @@
 {% extends "base.html" %}
+{% load crispy_forms_filters %}
 {% block content %}
   <h1>Book List</h1>
+  <form method="get" action="" class="form-inline">
+  {{ search_form|crispy }}
+    <input type="submit" class="btn btn-outline-warning" value="🔎">
+  </form>
 
   {% if book_list %}
     <ul class="list-unstyled">
