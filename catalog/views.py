@@ -55,7 +55,6 @@ class LiteraryFormatDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class BookListView(LoginRequiredMixin, generic.ListView):
     model = Book
-    queryset = Book.objects.select_related("format")
     paginate_by = 2
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -68,16 +67,17 @@ class BookListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
+        queryset = Book.objects.select_related("format")
         # title = self.request.GET.get("title")
         # if title:
         #     return self.queryset.filter(title__icontains=title)
         # return self.queryset
         form = BookSearchForm(self.request.GET)
         if form.is_valid():
-            return self.queryset.filter(
+            return queryset.filter(
                 title__icontains=form.cleaned_data["title"]
             )
-        return self.queryset
+        return queryset
 
 
 class BookDetailView(LoginRequiredMixin, generic.DetailView):
