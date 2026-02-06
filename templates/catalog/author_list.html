@@ -3,12 +3,32 @@
   <h1>Authors List <a style="float: right" href="{% url "catalog:author-create" %}">+</a></h1>
 
   {% if author_list %}
-    <ul class="list-unstyled">
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Full Name</th>
+        <th>Username</th>
+        <th>Pseudonym</th>
+      </tr>
       {% for author in author_list %}
-        <li><a href="{% url "catalog:author-detail" author.pk %}">{{ author.username }} </a>{{ author.first_name }} {{ author.last_name }}</li>
+        <tr>
+          <td>
+            <a href="{% url "catalog:author-detail" pk=author.pk %}">{{ author.id }}</a>
+          </td>
+          <td>
+            {{ author.first_name }} {{ author.last_name }}
+          </td>
+          <td>
+            {{ author.username }}
+          </td>
+          <td>
+            {{ author.pseudonym|default_if_none:"" }}
+          </td>
+        </tr>
+
       {% endfor %}
-    </ul>
-  {% else %}
+
+    </table>
     <p>There are no Authors in Library</p>
   {% endif %}
 {% endblock %}
