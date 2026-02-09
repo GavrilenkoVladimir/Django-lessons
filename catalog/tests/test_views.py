@@ -1,17 +1,18 @@
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-from django.test import Client, TestCase
+from django.test import  TestCase
 
 from catalog.models import LiteraryFormat, Book
 
 LITERARY_FORMAT_URL = reverse("catalog:literary-format-list")
 BOOK_LIST_URL = reverse("catalog:book-list")
+AUTHOR_CREATE_FORM_URL = reverse("catalog:author-create")
 
 
 class PublicLiteraryFormatTest(TestCase):
     def test_login_required(self):
         response = self.client.get(LITERARY_FORMAT_URL)
-        self.assertEqual(response.status_code, 200)
+        self.assertNotEqual(response.status_code, 200)
 
 
 class PrivateLiteraryFormatTest(TestCase):
@@ -74,3 +75,29 @@ class BookListViewTest(TestCase):
         book_list = response.context["book_list"]
 
         self.assertEqual(list(book_list), [self.book_1])
+
+
+class PrivateAuthorTests(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username="test",
+            password="password123",
+        )
+        self.client.force_login(self.user)
+
+    def test_create_author(self):
+        form_data = {
+            "username": "new_user",
+            "password1": "user12test",
+            "password2": "user12test",
+            "first_name": "Test first",
+            "last_name": "Test last",
+            "pseudonym": "Test pseudonym",
+        }
+        self.client.post(AUTHOR_CREATE_FORM_URL, data=form_data)
+        new_user = get_user_model().objects.get(username=form_data["username"])
+        self.assertEqual(new_user.username, "new_user")
+
+        self.assertEqual(new_user.first_name, form_data["first_name"])
+        self.assertEqual(new_user.last_name, form_data["last_name"])
+        self.assertEqual(new_user.pseudonym, form_data["pseudonym"])
